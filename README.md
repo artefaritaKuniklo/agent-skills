@@ -11,8 +11,7 @@ For more information, check out:
 
 ## Repository Structure
 
-<<<<<<< HEAD
-\\\
+```
 agent-skills/
 ├── README.md                        # This file
 ├── .gitignore                       # Git ignore file
@@ -53,7 +52,7 @@ agent-skills/
 ├── spec/                            # Agent Skills specification
 │   └── README.md                    # Skills specification documentation
 │
-\\\
+```
 
 ## Available Skills
 
@@ -128,10 +127,7 @@ Contains production and development skills. Each skill is a self-contained folde
 
 - SKILL.md — Skill manifest (name, description, activation conditions)
 - README.md — Comprehensive overview and usage guide
--
-
-\references/ — Detailed documentation and specifications
-
+- references/ — Detailed documentation and specifications
 - scripts/ — Example code and templates
 - Other supporting files as needed
 
@@ -149,9 +145,9 @@ Formal Agent Skills specification and compliance documentation.
 
 ### Basic Structure
 
-Create a new folder in \skills/\ with this structure:
+Create a new folder in `skills/` with this structure:
 
-\\\
+```
 my-skill/
 ├── SKILL.md                 # Skill manifest (required)
 ├── README.md                # Comprehensive overview
@@ -162,13 +158,13 @@ my-skill/
 │   └── example.py
 └── assets/                  # Templates, media (optional)
     └── template.xlsx
-\\\
+```
 
 ### SKILL.md Format
 
-Every skill must have a \SKILL.md\ with YAML frontmatter:
+Every skill must have a `SKILL.md` with YAML frontmatter:
 
-\\\markdown
+```markdown
 
 ---
 
@@ -191,16 +187,16 @@ description: Clear description of what this skill does and when to use it
 
 - Best practice 1
 - Best practice 2
-\\\
+```
 
 ### Required Fields
 
-- \ame\ — Unique lowercase identifier (use hyphens for spaces)
-- \description\ — Complete description of functionality and use cases
+- `name` — Unique lowercase identifier (use hyphens for spaces)
+- `description` — Complete description of functionality and use cases
 
 ### Bundled Resources
 
-#### \scripts/\ - Executable Code
+#### `scripts/` - Executable Code
 
 Include reusable or frequently-written code:
 
@@ -211,7 +207,7 @@ Include reusable or frequently-written code:
 
 **Benefits**: Token-efficient, deterministic execution, reproducible results
 
-#### \references/\ - Documentation
+#### `references/` - Documentation
 
 Long-form reference material and guides:
 
@@ -223,7 +219,7 @@ Long-form reference material and guides:
 
 **Best Practice**: For large files (>10k words), include search patterns in SKILL.md
 
-#### \ssets/\ - Output Resources
+#### `assets/` - Output Resources
 
 Templates and files used in generated output:
 
@@ -275,17 +271,17 @@ Keep skills focused: only include files that directly enable Claude's work.
 
 1. Review the skill's [README.md](./skills/)
 2. Check [QUICK_START.md](./skills/) for setup
-3. Read relevant documentation in \references/\
-4. Use examples from \scripts/\ as templates
+3. Read relevant documentation in `references/`
+4. Use examples from `scripts/` as templates
 
 ### To Create a New Skill
 
 1. Review the [template SKILL.md](./template/SKILL.md)
-2. Create a new folder: \skills/your-skill-name/\
-3. Add \SKILL.md\ with proper frontmatter
-4. Create \README.md\ with comprehensive overview
-5. Add \references/\ directory for documentation
-6. Add \scripts/\ directory with code examples
+2. Create a new folder: `skills/your-skill-name/`
+3. Add `SKILL.md` with proper frontmatter
+4. Create `README.md` with comprehensive overview
+5. Add `references/` directory for documentation
+6. Add `scripts/` directory with code examples
 7. Test the skill with Claude
 
 ### Best Practices
@@ -320,9 +316,9 @@ Keep skills focused: only include files that directly enable Claude's work.
 
 When updating skills:
 
-1. Update relevant documentation in \references/\
+1. Update relevant documentation in `references/`
 2. Update thresholds in YAML format
-3. Update code examples in \scripts/\
+3. Update code examples in `scripts/`
 4. Update repository README if structure changes
 
 ---
@@ -338,106 +334,3 @@ When updating skills:
 **Note**: These skills are provided for demonstration and educational purposes. Always test thoroughly before relying on them for critical work.
 
 **Last Updated**: January 17, 2026
-=======
-- **`./skills`** - Custom skill implementations
-- **`./template`** - Skill template for creating new skills
-- **`./spec`** - Agent Skills specification documents
-
-## Creating a New Skill
-
-Skills are simple to create - just a folder with a `SKILL.md` file containing YAML frontmatter and instructions. You can use the template in this repository as a starting point:
-
-    ```markdown
-    ---
-    name: my-skill-name
-    description: A clear description of what this skill does and when to use it
-    ---
-
-    # My Skill Name
-
-    [Add your instructions here that Claude will follow when this skill is active]
-
-    ## Examples
-
-    - Example usage 1
-    - Example usage 2
-
-    ## Guidelines
-
-    - Guideline 1
-    - Guideline 2
-    ```
-
-### Frontmatter Requirements
-
-The YAML frontmatter requires only two fields:
-
-- `name` - A unique identifier for your skill (lowercase, hyphens for spaces)
-- `description` - A complete description of what the skill does and when to use it
-
-### Skill Anatomy
-
-A complete skill directory structure:
-
-```plaintext
-skills/
-  my-skill/
-    SKILL.md
-    references/
-    scripts/
-    assets/
-```
-
-## Skill Guidelines
-
-### When to Include Bundled Resources
-
-#### Scripts (`scripts/`)
-
-Executable code for tasks that require deterministic reliability or are repeatedly rewritten.
-
-- **When to include**: When the same code is being rewritten repeatedly or deterministic reliability is needed
-- **Examples**: Python/Bash scripts for file conversion, data processing, API calls
-- **Benefits**: Token efficient, deterministic, may be executed without loading into context
-
-#### References (`references/`)
-
-Documentation and reference material intended to be loaded into context as needed.
-
-- **When to include**: For documentation that Claude should reference while working
-- **Examples**: Database schemas, API documentation, domain knowledge, company policies
-- **Use cases**: Detailed workflow guides, specifications, long reference material
-- **Best practice**: If files are large (>10k words), include grep search patterns in SKILL.md
-
-#### Assets (`assets/`)
-
-Files not intended to be loaded into context, but used within the output Claude produces.
-
-- **When to include**: When the skill needs files that will be used in the final output
-- **Examples**: Templates (PPTX, DOCX), images, icons, fonts, boilerplate code
-- **Use cases**: Files that get copied, modified, or served as output
-
-### What NOT to Include
-
-Do NOT create extraneous documentation or auxiliary files:
-
-- README.md
-- INSTALLATION_GUIDE.md
-- QUICK_REFERENCE.md
-- CHANGELOG.md
-- Other auxiliary context not needed for AI agents to perform the skill
-
-A skill should only contain essential files that directly support its functionality.
-
-## Getting Started
-
-1. Read the [template SKILL.md](./template/SKILL.md) to understand the basic structure
-2. Create a new folder in `./skills/` with your skill name
-3. Add a `SKILL.md` file with proper frontmatter and instructions
-4. Add optional bundled resources if needed (`scripts/`, `references/`, `assets/`)
-5. Test your skill with Claude
-
----
-
-**Note**: These skills are provided for demonstration and educational purposes. Always test skills thoroughly before relying on them for critical tasks.
->>>>>>> 3af9f7c7e9a419d3bbea79495a73b202ec0040c8
