@@ -1,0 +1,196 @@
+---
+# Analytical Thresholds and Standards
+# Version: 5.0
+# Last Updated: January 2026
+
+# Differential Expression Analysis
+differential_expression:
+  software:
+    count_data: DESeq2
+    microarray_data: limma
+
+  thresholds:
+    padj: 0.05 # Primary p-value cutoff
+    pvalue: 0.05 # Alternative p-value
+    log_fold_change_min: 0.5 # Minimum |logFC|
+    gene_count_min: 100 # Minimum differentially expressed genes
+
+  data_usage:
+    # Cannot use for differential analysis
+    cannot_use:
+    - FPKM_raw
+    - TPM_raw
+    - normalized_count
+    - log2_count_plus_1
+
+    # Can use for other analyses
+    can_use_other:
+    - log2_fpkm_plus_1
+    - log2_tpm_plus_1
+
+  quality_checks:
+  - PCA_before_analysis
+  - boxplot_outliers
+  - heatmap_visualization
+  - batch_effect_assessment
+
+# WGCNA (Weighted Gene Co-expression Network Analysis)
+wgcna:
+  sample_minimum: 15
+
+  soft_threshold:
+    r_squared_min: 0.8
+    r_squared_recommended: 0.85
+    r_squared_max: 0.9
+    mean_connectivity_max: 200
+
+  module_selection:
+    correlation_min: 0.3 # |r| > 0.3
+    pvalue_max: 0.05
+    gs_min: 0.2 # Gene Significance minimum
+    mm_min: 0.8 # Module Membership minimum
+
+  expression_matrix:
+  - include_all_genes
+  - exclude_low_expression
+  - exclude_non_expressing
+
+# Gene Set Scoring (ssGSEA, GSVA, etc.)
+gene_set_scoring:
+  ssgsea:
+    gene_count_min: 10
+    gene_count_max: 200
+    gene_count_recommended: 30
+    method: ssGSEA
+
+  traits:
+  - clarify_sample_type
+  - document_phenotype_rationale
+
+# ROC Analysis
+roc_analysis:
+  single_gene:
+    auc_min: 0.7
+    auc_max: 1.0 # AUC=1 cannot be used for selection
+    sample_size_min: 8 # per group (8 vs 8)
+
+  diagnostic_model:
+    auc_min: 0.7
+    should_exceed_single_gene: true
+    auc_cannot_equal: 1
+    sample_size_min: 8
+
+# Machine Learning
+machine_learning:
+  sample_size:
+    min_per_group: 8
+
+  cross_validation:
+    small_samples_lt_15: 3 # 3-fold for < 15 samples
+    standard_samples: [ 5, 10 ] # 5-10 fold
+    minimum_per_fold: 3
+
+  class_coding:
+    normal_control: 0
+    disease: 1
+
+  validation:
+    error_cannot_be: 0
+    accuracy_cannot_be: 1 # Indicates overfitting
+
+# Prognosis Models
+prognosis_models:
+  cox_regression:
+    pvalue_priority: 0.05
+    pvalue_max: 0.2
+    ph_assumption_test_required: true
+    ph_p_min: 0.05
+
+  nomogram:
+    auc_min: 0.6
+    additional_metrics_required: 1 # AUC + calibration or DCA
+
+  independent_prognosis:
+    must_include: [ "riskScore", "clinical_features" ]
+    clinical_features_min: 1
+
+# Enrichment Analysis
+enrichment_analysis:
+  gsea:
+    nes_min: 1 # |NES| > 1
+    pvalue_max: 0.05
+    use_adjusted_pvalue: true
+    background_priority: KEGG
+
+  gsva:
+    t_stat_min: 1 # |t| > 1, minimum 0
+    t_stat_recommended: 0 # Can be 0
+    pvalue_max: 0.05
+    use_adjusted_pvalue: true
+    differential_method: limma
+
+  functional_enrichment:
+    gene_count_min: 10 # < 10: switch to single-gene GSEA
+
+# Clustering
+clustering:
+  consensus_clustering:
+    sample_min: 30
+    evaluation_metrics:
+    - CDF_curve
+    - platform_period_K
+    - heatmap
+
+  nmf:
+    evaluation:
+    - steepest_slope_point
+    - heatmap_assessment
+
+# Molecular Docking
+molecular_docking:
+  binding_energy:
+    kcal_mol_reference: -1.2
+    kJ_mol_reference: -5
+
+# Quality Standards
+quality_standards:
+  correlation:
+    minimum_threshold: 0.3
+    prefer_spearman_when_uncertain: true
+
+  gene_filters:
+  - seed_setting_required
+  - version_tracking
+  - parameter_documentation
+  - literature_support_for_nonstandard
+
+# Data-Specific Standards
+data_standards:
+  single_gene_expression:
+    external_validations_min: 2
+    diagnostic_genes_max: 5
+    prognosis_genes_max: 8
+    missing_genes_allowed: 1
+
+  single_cell_analysis:
+    quality_control_requirements:
+    - cell_count
+    - gene_count
+    - mitochondrial_proportion
+    marker_per_celltype_min: 1
+
+# Special Cases
+special_cases:
+  aml_validation: "use_GEO_bone_marrow_datasets"
+  prognosis_split_allowed_cancers:
+  - cervical_cancer
+  - thyroid_cancer
+  - endometrial_cancer
+  survival_consistency:
+  - same_type_OS_PFS_DFS
+  - same_units_years_months_days
+
+# Version Notes
+version: "5.0"
+last_update: "2026-01-17"
+department: "Data Analysis"
